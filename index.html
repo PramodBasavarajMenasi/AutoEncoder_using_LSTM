@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LSTM Autoencoder on MNIST</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .container {
+        width: 85%;
+        max-width: 900px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h1, h2, h3 {
+        color: #222;
+        margin-bottom: 15px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    p {
+        margin-bottom: 18px;
+        font-size: 17px;
+    }
+
+    pre {
+        background: #272822;
+        color: #f8f8f2;
+        padding: 15px;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-size: 15px;
+    }
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>LSTM Autoencoder on MNIST</h1>
+
+    <p>
+        In this project, I built an LSTM autoencoder to reconstruct MNIST images by treating each image as
+        a sequence. Each 28×28 image is reshaped into 28 timesteps with 28 features, allowing an LSTM-based
+        encoder–decoder architecture to learn the structure of the data.
+    </p>
+
+    <h2>1. Project Idea</h2>
+    <p>
+        MNIST images are converted into sequential form: <strong>(28 timesteps, 28 features)</strong>.
+        The encoder compresses the sequence into a latent vector, and the decoder reconstructs the image
+        from this representation.
+    </p>
+
+    <h2>2. Model Architecture</h2>
+
+    <h3>Encoder</h3>
+    <pre>
+Input: (28, 28)
+→ LSTM(128, return_sequences=True)
+→ LSTM(96, return_sequences=True)
+→ LSTM(64, return_sequences=False)
+→ Latent vector (64)
+    </pre>
+
+    <h3>Decoder</h3>
+    <pre>
+Latent vector → repeated across 28 timesteps
+→ LSTM(64, return_sequences=True)
+→ LSTM(96, return_sequences=True)
+→ LSTM(128, return_sequences=True)
+→ Linear layer → Output image (28, 28)
+    </pre>
+
+    <h2>3. Training the Autoencoder</h2>
+    <p>
+        The model was trained on the MNIST dataset using the Adam optimizer and MSE loss. Even though the
+        model processes images as sequences instead of grids, it successfully learned to reconstruct
+        recognizable digit patterns.
+    </p>
+
+    <h2>4. Testing the Model</h2>
+    <p>
+        During testing, reconstructed images were compared with original test samples. The model produced
+        clear and accurate reconstructions, confirming that the LSTM autoencoder captured essential image
+        features.
+    </p>
+
+    <h2>5. What I Verified During Experiments</h2>
+    <p>
+        I trained the autoencoder for 50 epochs and tested different variations. One key observation was
+        related to activation functions. When nonlinear activations were used inside the LSTM layers, the
+        reconstructed images appeared blurry. After removing these activations, reconstruction quality
+        improved significantly.
+    </p>
+
+    <p>
+        MNIST is simple and almost linear in structure. This means a linear autoencoder can approximate its
+        manifold effectively, similar to PCA. Adding nonlinear activations increases complexity and may
+        introduce training difficulties such as saturation or dead neurons.
+    </p>
+
+    <p>
+        For MNIST, a linear LSTM autoencoder actually outperformed a nonlinear version, demonstrating that
+        model complexity should match dataset complexity.
+    </p>
+</div>
+</body>
+</html>

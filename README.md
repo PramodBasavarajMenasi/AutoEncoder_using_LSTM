@@ -33,3 +33,16 @@ A key part of the project involved comparing different configurations of the mod
   - Blurry outputs
 
 Without activations, the model remains linear and can fit MNIST’s structure more effectively. This demonstrates the importance of aligning model complexity with dataset complexity.
+---
+**With activation function (after 50 epochs)**
+
+<img width="783" height="349" alt="image" src="https://github.com/user-attachments/assets/6ffe1bd2-4b1d-4471-9ee5-0877787292f9" />
+
+
+**Without activation function (after 10 epochs)**
+
+<img width="774" height="349" alt="image" src="https://github.com/user-attachments/assets/7008f538-199d-4ed0-a3e1-995144736145" />
+
+---
+
+
